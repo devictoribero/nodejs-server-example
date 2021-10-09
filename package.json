@@ -1,0 +1,31 @@
+{
+  "name": "nodejs-server-example",
+  "version": "1.0.0",
+  "description": "Example of how to set up a nodejs server without framework, only nodejs modules",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devictoribero/nodejs-server-example.git"
+  },
+  "keywords": [
+    "server",
+    "nodejs",
+    "api"
+  ],
+  "author": "victor ribero guasch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devictoribero/nodejs-server-example/issues"
+  },
+  "homepage": "https://github.com/devictoribero/nodejs-server-example#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
