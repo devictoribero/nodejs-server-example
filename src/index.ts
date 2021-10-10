@@ -1,6 +1,11 @@
 import { Application } from "./application";
+import dotenv from "dotenv";
 
-const PORT = 5000;
-const application = new Application({ port: PORT });
+dotenv.config();
+
+const radix = 10;
+const application = new Application({
+  port: parseInt(process.env.PORT, radix),
+});
 
 application.start();

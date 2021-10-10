@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 interface RunnableApplication {
   setup(): void;
@@ -6,7 +7,7 @@ interface RunnableApplication {
 }
 
 export class Application implements RunnableApplication {
-  private server;
+  private server: express.Application;
   private readonly port: number;
   private readonly basePath;
 
@@ -20,10 +21,27 @@ export class Application implements RunnableApplication {
     this.server.get(`${this.basePath}/users`, (req, res) => {
       res.send({ users: [] });
     });
+
+    this.server.get(`${this.basePath}/log`, (req, res) => {
+      res.send({ log: "hello log" });
+    });
+
+    return this;
   }
 
   setup() {
-    this.configureRoutes();
+    this.applyMiddlewares().configureRoutes();
+  }
+
+  // todo add type for function response
+  applyMiddlewares() {
+    // Parse all incoming request to JSON
+    this.server.use(express.json());
+
+    // Allows CORS
+    this.server.use(cors());
+
+    return this;
   }
 
   start() {
