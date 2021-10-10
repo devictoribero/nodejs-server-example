@@ -22,8 +22,13 @@ export class Application implements RunnableApplication {
       res.send({ users: [] });
     });
 
-    this.server.get(`${this.basePath}/log`, (req, res) => {
-      res.send({ log: "hello log" });
+    this.server.get(`${this.basePath}/log/:text`, (req, res) => {
+      const { text } = req.params;
+      res.json(`hello ${text}`);
+    });
+
+    this.server.post(`${this.basePath}/mirror`, (req, res) => {
+      res.send(req.body);
     });
 
     return this;
@@ -37,6 +42,9 @@ export class Application implements RunnableApplication {
   applyMiddlewares() {
     // Parse all incoming request to JSON
     this.server.use(express.json());
+
+    // Enables URL data encoded
+    this.server.use(express.urlencoded({ extended: false }));
 
     // Allows CORS
     this.server.use(cors());
