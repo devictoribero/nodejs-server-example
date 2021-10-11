@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import { routerExpenses } from "./routers/expenses";
 
 interface RunnableApplication {
   setup(): void;
@@ -21,6 +22,8 @@ export class Application implements RunnableApplication {
     this.server.get(`${this.basePath}/users`, (req, res) => {
       res.send({ users: [] });
     });
+
+    this.server.use(this.basePath, routerExpenses);
 
     this.server.get(`${this.basePath}/log/:text`, (req, res) => {
       const { text } = req.params;
