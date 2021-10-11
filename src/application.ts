@@ -27,6 +27,14 @@ export class Application implements RunnableApplication {
       res.json(`hello ${text}`);
     });
 
+    this.server.get(`${this.basePath}/download`, (req, res) => {
+      res.download(`src/download.txt`, (error) => {
+        if (error) {
+          res.status(404).end();
+        }
+      });
+    });
+
     this.server.post(`${this.basePath}/mirror`, (req, res) => {
       res.send(req.body);
     });
