@@ -1,6 +1,7 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import { routerExpenses } from "./routers/expenses";
+import { routerReports } from "./routers/reports";
 
 interface RunnableApplication {
   setup(): void;
@@ -19,28 +20,8 @@ export class Application implements RunnableApplication {
   }
 
   private configureRoutes() {
-    this.server.get(`${this.basePath}/users`, (req, res) => {
-      res.send({ users: [] });
-    });
-
+    this.server.use(this.basePath, routerReports);
     this.server.use(this.basePath, routerExpenses);
-
-    this.server.get(`${this.basePath}/log/:text`, (req, res) => {
-      const { text } = req.params;
-      res.json(`hello ${text}`);
-    });
-
-    this.server.get(`${this.basePath}/download`, (req, res) => {
-      res.download(`public/download.txt`, (error) => {
-        if (error) {
-          res.status(404).end();
-        }
-      });
-    });
-
-    this.server.post(`${this.basePath}/mirror`, (req, res) => {
-      res.send(req.body);
-    });
 
     return this;
   }

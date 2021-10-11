@@ -1,18 +1,16 @@
 import express from "express";
 import { v4 as uuid } from "uuid";
+import { expensesDB } from "./db";
 
 const router = express.Router();
 
-type Expense = {
+export type Expense = {
   id: string;
   category: ExpensesCategories;
   date: string;
   money: { amount: number; currency: Currency };
   payer: string;
 };
-
-// In memory DB
-const expenses: Expense[] = [];
 
 router.post("/expenses", (req, res) => {
   const { body } = req;
@@ -26,7 +24,7 @@ router.post("/expenses", (req, res) => {
     res.status(400).send({ message: "The category provided is not correct" });
   }
 
-  expenses.push({
+  expensesDB.push({
     id: uuid(),
     category: category as ExpensesCategories,
     date: new Date(date).toISOString(),
@@ -41,10 +39,8 @@ router.post("/expenses", (req, res) => {
 });
 
 router.get("/expenses", (req, res) => {
-  res.send({ expenses });
+  res.send({ expenses: expensesDB });
 });
-
-export const routerExpenses = router;
 
 enum ExpensesCategories {
   Rent = "rent",
@@ -56,3 +52,5 @@ enum Currency {
   MXN = "MXN",
   EURO = "EURO",
 }
+
+export const routerExpenses = router;
