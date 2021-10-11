@@ -31,7 +31,7 @@ export class Application implements RunnableApplication {
     });
 
     this.server.get(`${this.basePath}/download`, (req, res) => {
-      res.download(`src/download.txt`, (error) => {
+      res.download(`public/download.txt`, (error) => {
         if (error) {
           res.status(404).end();
         }
